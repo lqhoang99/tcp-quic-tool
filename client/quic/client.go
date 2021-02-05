@@ -35,7 +35,7 @@ func (c *Client) GetType() connection_type.ConnectionType {
 }
 
 func (c *Client) SendDuration(duration time.Duration, bufferSize int) (int64, error) {
-	stream, err := c.session.OpenStreamSync()
+	stream, err := c.session.OpenStream()
 	if err != nil {
 		return -1, err
 	}
@@ -76,7 +76,7 @@ func (c *Client) SendDuration(duration time.Duration, bufferSize int) (int64, er
 }
 
 func (c *Client) SendBytes(numBytes int64) (time.Duration, error) {
-	stream, err := c.session.OpenStreamSync()
+	stream, err := c.session.OpenStream()
 	if err != nil {
 		return -1, err
 	}

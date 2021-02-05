@@ -32,17 +32,7 @@ func main() {
 			log.Fatalln(err.Error())
 		}
 
-		if opt.Bytes > -1 {
-			// Send the set amount of bytes to the server
-			time, err := c.SendBytes(opt.Bytes)
-			if err != nil {
-				log.Fatalf("Encountered error when trying to send %d bytes to the server. Error: %s", opt.Bytes, err.Error())
-			}
-
-			log.Printf("Sent %d bytes in %d nanoseconds", opt.Bytes, time.Nanoseconds())
-			mb := float64(opt.Bytes*8)/float64(1000000)
-			log.Printf("%f Mbit/s", mb/time.Seconds())
-		} else if opt.Duration > -1 {
+		if opt.Duration > -1 {
 			// Send for the set duration to the server
 			sentBytes, err := c.SendDuration(opt.Duration, opt.BufferSize)
 			if err != nil {
@@ -52,6 +42,16 @@ func main() {
 			log.Printf("Sent %d bytes in %d nanoseconds", sentBytes, opt.Duration.Nanoseconds())
 			mb := float64(opt.Bytes*8)/float64(1000000)
 			log.Printf("%f Mbit/s", mb/(opt.Duration.Seconds()))
+		}else if opt.Bytes > -1 {
+			// Send the set amount of bytes to the server
+			time, err := c.SendBytes(opt.Bytes)
+			if err != nil {
+				log.Fatalf("Encountered error when trying to send %d bytes to the server. Error: %s", opt.Bytes, err.Error())
+			}
+
+			log.Printf("Sent %d bytes in %d nanoseconds", opt.Bytes, time.Nanoseconds())
+			mb := float64(opt.Bytes*8)/float64(1000000)
+			log.Printf("%f Mbit/s", mb/time.Seconds())
 		} else {
 			log.Fatalf("You need to either set --bytes or --duration to measure throughput")
 		}
